@@ -1,0 +1,29 @@
+set imap_user = "your.name@company.com"
+set from = "your.name@company.com"
+set smtp_url = "smtp://your.name\@company.com@smtp.gmail.com:587/"
+
+source "~/.neomutt/mainconf"
+
+#
+# Load passwords from encrypted file.
+#
+###
+### Your local GPG should be able to decrypt a file that looks like this
+###
+###  set imap_pass="f0kq0mfa0vksaldf"
+###  set smtp_pass="f0kq0mfa0vksaldf"
+###
+### See 'app passwords':
+###
+###	https://support.google.com/mail/answer/185833
+###
+#
+## See what this line below does and UNCOMMENT it.
+#
+# source "gpg -d ~/.passwd/mutt-passwords.gpg |"
+#
+#### OR:
+#
+# TEMPORARY for testing:
+source "cat ~/.passwd/mutt-passwords-PLAINTEXT-THIS-IS-BAD.txt |"
+

@@ -1,0 +1,88 @@
+set realname = "Your Name"
+set folder = "imaps://imap.gmail.com:993"
+set spoolfile = "+INBOX"
+set imap_check_subscribed
+set hostname = gmail.com
+set mail_check = 120
+set timeout = 120
+set imap_keepalive = 55
+set imap_idle = yes
+set pager_stop=yes
+set postponed = "+[Gmail]/Drafts"
+set use_from=yes
+set envelope_from=yes
+set edit_headers
+
+#
+# No need for this as GMail automatically does it:
+#   set record = "+[Gmail]/Sent Mail"
+#
+unset record
+
+# set header_cache=~/.neomutt/cache/headers
+set message_cachedir=~/.neomutt/cache/bodies
+set certificate_file=~/.neomutt/certificates
+set move = no
+set include
+set sort = 'threads'
+# set sort_aux = 'reverse-date-sent'
+# set sort = 'threads'
+# set sort_aux = 'reverse-last-date-received'
+set auto_tag = yes
+set signature="~/.neomutt/signature"
+set date_format="%F %T"
+set index_format="%4C %Z %D  %-15.15L (%?l?%4l&%4c?) %s"
+# set display_filter="~/.neomutt/scripts/localdate.sh"
+
+ignore "Authentication-Results:"
+ignore "DomainKey-Signature:"
+ignore "DKIM-Signature:"
+hdr_order Date From To Cc
+alternative_order text/plain text/html *
+auto_view text/html
+bind editor <Tab> complete-query
+bind editor ^T complete
+bind editor <space> noop
+
+set tmpdir = ~/.neomutt/tmp
+
+# Gmail-style keyboard shortcuts
+macro index,pager y "<enter-command>unset trash\n <delete-message>" "Gmail archive message"
+macro index,pager d "<enter-command>set trash=\"imaps://imap.googlemail.com/[Gmail]/Bin\"\n <delete-message>" "Gmail delete message"
+bind index g noop
+bind pager g noop
+macro index,pager gi "<change-folder>=INBOX<enter>" "Go to inbox"
+macro index,pager ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to all mail"
+macro index,pager gS "<change-folder>=[Gmail]/Starred<enter>" "Go to starred messages"
+macro index,pager gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to drafts"
+bind index <f5> imap-fetch-mail
+
+macro index,pager r "<group-reply>"
+macro index,pager R "<reply>"
+
+bind pager "<Up>"  previous-line
+bind pager "<Down>" next-line
+
+macro pager H "| bidiv | less -r\n" 
+macro index H "| bidiv | less -r\n" 
+
+color hdrdefault brightwhite black
+source ~/.neomutt/colors
+
+macro index <esc>m "T~N<enter>;WNT~O<enter>;WO\CT~T<enter>" "mark all messages read"
+macro index <esc>a "lall<enter>" "filter to all"
+macro index <esc>i "l~(~F|~P)<enter>" "filter flagged threads or threads in which you participate"
+macro index,pager \Ch "C~/.neomutt/temp/save.mbox<enter><enter>" "save to temporary local mailbox"
+
+# set sidebar_width=30
+# set sidebar_visible=yes
+# set sidebar_delim='|'
+# macro index b '<enter-command>toggle sidebar_visible<enter><refresh>'
+# macro pager b '<enter-command>toggle sidebar_visible<enter><redraw-screen>'
+# color sidebar_new yellow default
+
+set editor='nvim + -c "set textwidth=72" -c "set wrap" -c "set nocp" -c "?^$"'
+set wait_key=no
+
+macro index gs "<change-folder>=[Gmail]/Sent Mail<enter>"  "go to Sent Items"
+macro index gr "<change-folder>=Review<enter>"  "go to Review folder"
