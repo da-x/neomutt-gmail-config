@@ -1,0 +1,31 @@
+#!/bin/bash
+
+touch ${HOME}/.newsrc
+
+mkdir -p ${HOME}/.neomutt.home
+mkdir -p ${HOME}/.neomutt.home/.neomutt
+touch ${HOME}/.neomutt.home/.newsrc
+
+if [[ ! -e ~/.newsrc ]] ; then
+    ln -s ${HOME}/.neomutt.home/.newsrc ~/.newsrc
+fi
+
+args=(
+    -w $(pwd)
+    -e TERM=${TERM}
+    -e HOME=${HOME}
+    -v ${HOME}/.neomutt.home:${HOME}
+    -v ${HOME}/.neomutt:${HOME}/.neomutt
+)
+
+if [[ "${HOME}" != $(pwd) ]] ; then
+    v+=(-v $(pwd):$(pwd))
+fi
+
+if grep -q "Emulate Docker CLI using podman" /usr/bin/docker; then
+    args+=(--userns=keep-id)
+else
+    args+=(--user $(id -u):$(id -g) --volume=/etc/group:/etc/group:ro --volume=/etc/passwd:/etc/passwd:ro --volume=/etc/shadow:/etc/shadow:ro --volume=/etc/sudoers:/etc/sudoers:ro)
+fi
+
+exec docker run "${args[@]}" -it --rm localhost/neomutt:latest neomutt "$@"

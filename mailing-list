@@ -1,0 +1,14 @@
+#!/bin/bash
+
+server="$1"
+group="$2"
+
+shift 2
+
+# nntp.lore.kernel.org org.kernel.vger.linux-kernel
+
+if ! grep -q ${group} ~/.newsrc > /dev/null; then
+    echo ${group}: >> ~/.newsrc
+fi
+
+neomutt "$@" -e 'set nntp_context = 1000' -e 'set read_inc = 2000' -f news://${server}/${group}
