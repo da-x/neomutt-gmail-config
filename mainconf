@@ -48,7 +48,7 @@ set tmpdir = ~/.neomutt/tmp
 
 # Gmail-style keyboard shortcuts
 macro index,pager y "<enter-command>unset trash\n <delete-message>" "Gmail archive message"
-macro index,pager d "<enter-command>set trash=\"imaps://imap.googlemail.com/[Gmail]/Bin\"\n <delete-message>" "Gmail delete message"
+macro index,pager d "<enter-command>set trash=\"imaps://imap.googlemail.com/[Gmail]/Trash\"\n <delete-message>" "Gmail delete message"
 bind index g noop
 bind pager g noop
 macro index,pager gi "<change-folder>=INBOX<enter>" "Go to inbox"
